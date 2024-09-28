@@ -1,0 +1,34 @@
+.card_info_container {
+  ion-card-title {
+    font-size: 16px;
+    color: var(--ion-color-white);
+    font-weight: 400;
+  }
+  .sub_info {
+    font-size: 8px;
+    color: var(--ion-color-white);
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    .sub_info_item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ion-img {
+        width: 12px;
+        height: 12px;
+        margin-right: 3px;
+      }
+    }
+  }
+  .sub_info > :first-child {
+    padding: 5px 5px 5px 0;
+  }
+  .sub_info > :not(:first-child) {
+    padding: 5px;
+  }
+  .sub_info.theme2 {
+    color: var(--ion-text-color);
+    font-weight: 500;
+  }
+}

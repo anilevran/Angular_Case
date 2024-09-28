@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button class="navigate-button" slot="start" (click)="navigateToFeed()">
+      <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+    </ion-button>
+    <ion-title class="ion-text-center">Restoran</ion-title>
+    <ion-icon slot="end" s name="chatbox-ellipses-outline"></ion-icon>
+    <ion-icon slot="end" name="notifications-outline"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ng-container *ngIf="!isLoading">
+  <ion-content
+    [fullscreen]="true"
+    [scrollY]="false"
+    *ngIf="storeInfo$ | async as storeInfo"
+  >
+    <ion-img [src]="storeInfo.feedInfo.images[0].base64"></ion-img>
+
+    <div class="store-info-container" *ngIf="storeInfo.feedInfo">
+      <div class="store-info-header-container">
+        <ion-button class="ion-padding-none" (click)="toggleFavorite()">
+          <ion-icon
+            class="fav_button"
+            [src]="isFavorite ? 'assets/icon/favorite-active.svg' : 'assets/icon/favorite.svg'"
+          ></ion-icon>
+        </ion-button>
+        <ion-img
+          [src]="storeInfo.feedInfo.images[0].base64"
+          alt="no image"
+        ></ion-img>
+
+        <div class="store-info-header-content">
+          <span class="title">{{ storeInfo.storeInfoDetail.name }}</span>
+          <div class="available_hours" [ngClass]="{ 'closed': !printStoreHours(storeInfo.storeInfoDetail.workingHours).isOpen }">
+            {{ printStoreHours(storeInfo.storeInfoDetail.workingHours).message }}
+          </div>
+          <store-subinfo
+            [min_order_price]="storeInfo.feedInfo.storeInfo.minOrderPrice"
+            [theme]="1"
+            [distance]="storeInfo.feedInfo.distance"
+          ></store-subinfo>
+        </div>
+      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-img src="assets/icon/plate.svg"></ion-img>
+            <span>Restorandayım</span>
+          </ion-col>
+          <ion-col>
+            <ion-img src="assets/icon/location-mixed.svg"></ion-img>
+            <span class="delivery_status" [ngClass]="{ 'closed-delivery': !storeInfo.storeInfoDetail.properties.delivery, 'open-delivery': storeInfo.storeInfoDetail.properties.delivery }">
+              {{ storeInfo.storeInfoDetail.properties.delivery ? 'Açık' : 'Kapalı' }}
+            </span>
+            <span>Paket Servis</span>
+          </ion-col>
+          <ion-col>
+            <ion-img src="assets/icon/clock-mixed.svg"></ion-img>
+            <span>Gel al</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col
+            ><ion-img src="assets/icon/reservation.svg"></ion-img>
+            <span>Rezervasyon</span>
+          </ion-col>
+          <ion-col
+            ><ion-img src="assets/icon/letter.svg"></ion-img>
+            <span>İletişim</span>
+          </ion-col>
+          <ion-col class="review-container">
+            <div class="review-label">00,00</div>
+            <span>Puanım</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div class="reward-container">
+        <div class="reward-title">Kahve Hediyesi</div>
+        <div class="reward-description">
+          Her 5 kahve siparişinde bir kahve bizden hediye!
+        </div>
+        <div class="reward-progress-container">
+          <div class="reward-progress">
+            <div class="reward-progress-item">
+              <div class="progress active"></div>
+              <ion-img class="trophy-dot" src="assets/icon/red-dot.svg">
+              </ion-img>
+              <ion-img class="trophy" src="assets/icon/trophy.svg"> </ion-img>
+            </div>
+            <div class="reward-progress-item">
+              <div class="progress"></div>
+              <ion-img class="trophy-dot" src="assets/icon/gray-dot.svg">
+              </ion-img>
+              <ion-img class="trophy" src="assets/icon/trophy.svg"> </ion-img>
+            </div>
+            <div class="reward-progress-item">
+              <div class="progress"></div>
+              <ion-img class="trophy-dot" src="assets/icon/gray-dot.svg">
+              </ion-img>
+              <ion-img class="trophy" src="assets/icon/trophy.svg"> </ion-img>
+            </div>
+            <div class="reward-progress-item">
+              <div class="progress"></div>
+              <ion-img class="trophy-dot" src="assets/icon/gray-dot.svg">
+              </ion-img>
+              <ion-img class="trophy" src="assets/icon/trophy.svg"> </ion-img>
+            </div>
+            <div class="reward-progress-item">
+              <div class="progress"></div>
+              <ion-img class="trophy-dot" src="assets/icon/gray-dot.svg">
+              </ion-img>
+              <ion-img class="trophy" src="assets/icon/trophy.svg"> </ion-img>
+            </div>
+          </div>
+          <div class="reward-count">1 / 5</div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ng-container>
+
+<ion-content *ngIf="isLoading">
+  <ion-loading></ion-loading>
+</ion-content>

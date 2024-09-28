@@ -1,0 +1,36 @@
+<div class="card_info_container">
+  <ion-card-title *ngIf="theme === 0">{{ title }}</ion-card-title>
+  <div [class.sub_info]="true" [class.theme2]="theme === 1">
+    <div class="sub_info_item">
+      <ion-img
+        class="list_filter"
+        [src]="
+          theme === 1 ? 'assets/icon/clock-red.svg' : 'assets/icon/clock.svg'
+        "
+      ></ion-img
+      ><span>20-25 dk</span>
+    </div>
+    <div class="sub_info_item">
+      <ion-img
+        class="list_filter"
+        [src]="
+          theme === 1
+            ? 'assets/icon/location-red.svg'
+            : 'assets/icon/location.svg'
+        "
+      ></ion-img
+      ><span>{{ distance | number: '1.2-2' }} km</span>
+    </div>
+    <div class="sub_info_item">
+      <ion-img
+        class="list_filter"
+        [src]="
+          theme === 1
+            ? 'assets/icon/min-price-red.svg'
+            : 'assets/icon/min-price.svg'
+        "
+      ></ion-img>
+      <span>Min. {{ min_order_price }} TL</span>
+    </div>
+  </div>
+</div>

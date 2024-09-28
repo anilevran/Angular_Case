@@ -1,0 +1,58 @@
+<ion-header>
+  <span>Ev: 1234/1 Sok .No 1 D:1 Beylikdüzü/İstanbul</span>
+  <ion-icon name="chevron-down-outline"></ion-icon>
+</ion-header>
+
+<ion-content>
+  <span>Günaydın <span class="name-mid">Anıl, </span></span>
+  <ion-icon src="assets/icon/sun-icon.svg"></ion-icon>
+  <br />
+  <span>Bugün ne yemek istersin?</span>
+
+  <div class="search_filter_container">
+    <ion-searchbar
+      search-icon="assets/icon/search-icon.svg"
+      placeholder="Arama"
+    ></ion-searchbar>
+    <ion-button class="ion-padding-none"
+      ><ion-icon class="list-filter" src="assets/icon/filter.svg"></ion-icon
+    ></ion-button>
+  </div>
+
+  <ion-list>
+    <div class="list_label">Restoranlar</div>
+
+    <ion-card
+      *ngFor="let feed_item of (feed$ | async); let i = index"
+      [ngStyle]="{'background-image': feed_item.images && feed_item.images.length > 0 ? 'url(' + feed_item.images[0].base64 + ')' : 'white'}"
+      (click)="onCardClick(feed_item.storeInfo.id,i)"
+    >
+      <ion-card-header class="card_header_container">
+        <div class="coupons">
+          <div class="coupon-item">%5 Orwi Puan</div>
+          <div class="coupon-item">10 TL Kupon</div>
+        </div>
+        <ion-button class="ion-padding-none" (click)="toggleFavorite($event, feed_item.storeInfo.id)">
+          <ion-icon
+            [src]="isFavorite[feed_item.storeInfo.id] ? 'assets/icon/favorite-active.svg' : 'assets/icon/favorite.svg'"
+          ></ion-icon>
+        </ion-button>
+      </ion-card-header>
+      <div class="float_subinfo">
+        <store-subinfo
+          [min_order_price]="feed_item.storeInfo.minOrderPrice"
+          [title]="feed_item.title"
+          [theme]="0"
+          [distance]="feed_item.distance"
+        ></store-subinfo>
+      </div>
+    </ion-card>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingText="Lütfen Bekleyin..."
+      loadingSpinner="bubbles"
+    ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
